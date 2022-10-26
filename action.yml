@@ -16,10 +16,10 @@ inputs:
 runs:
   using: "composite"
   steps:
-    - name: Replace environment name in built template
-      shell: bash
-      run: |
-        sed -i 's/${{ inputs.from_env }}/${{ inputs.to_env }}/' .aws-sam/build/template.yaml
+#    - name: Replace environment name in built template
+#      shell: bash
+#      run: |
+#        sed -i 's/${{ inputs.from_env }}/${{ inputs.to_env }}/' .aws-sam/build/template.yaml
 
     - name: Upload artifacts to artifact bucket
       shell: bash
