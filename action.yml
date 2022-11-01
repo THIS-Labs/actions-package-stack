@@ -1,6 +1,9 @@
 name: 'Package thiscovery'
 description: 'Packages thiscovery stack and uploads deployment artifacts to S3'
 inputs:
+  from_env:
+    description: 'Environment currently set in build template'
+    required: true
   to_env:
     description: 'Environment to be set in packaged template'
     required: true
@@ -13,6 +16,10 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - name: Replace environment name in built template
+      shell: bash
+      run: |
+        sed -i 's/${{ inputs.from_env }}/${{ inputs.to_env }}/' .aws-sam/build/template.yaml
 
     - name: Upload artifacts to artifact bucket
       shell: bash
