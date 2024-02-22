@@ -30,7 +30,7 @@ runs:
           --region ${AWS_REGION} \
           --output-template-file ${{ env.STACK_NAME }}-packaged-${{ inputs.to_env }}.yaml
 
-    - uses: actions/upload-artifact@v3
+    - uses: actions/upload-artifact@v4
       with:
         name: ${{ env.STACK_NAME }}-packaged-${{ inputs.to_env }}.yaml
         path: ${{ env.STACK_NAME }}-packaged-${{ inputs.to_env }}.yaml
