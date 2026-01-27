@@ -9,13 +9,24 @@ inputs:
     required: true
   deployment_role:
     description: 'AWS role to assume'
-    required: false
+    required: true
   artifacts_bucket:
     description: 'S3 bucket to upload artifacts to'
     required: true
 runs:
   using: "composite"
   steps:
+    - name: Assume the deployment pipeline user role
+      uses: aws-actions/configure-aws-credentials@v5
+      with:
+        aws-access-key-id: ${{ env.PIPELINE_USER_ACCESS_KEY_ID }}
+        aws-secret-access-key: ${{ env.PIPELINE_USER_SECRET_ACCESS_KEY }}
+        aws-region: ${{ env.AWS_REGION }}
+        role-to-assume: ${{ inputs.deployment_role }}
+        role-session-name: ${{ env.STACK_NAME }}-${{ inputs.to_env }}-packaging
+        role-duration-seconds: 3600
+        role-skip-session-tagging: true
+
     - name: Replace environment name in built template
       shell: bash
       run: |
